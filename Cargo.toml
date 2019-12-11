@@ -3,6 +3,10 @@ name = "stm32_blink"
 version = "0.1.0"
 edition = "2018"
 
+[features]
+OLIMEX_H103 = []
+BLUEPILL = []
+
 [profile.release]
 # optimize for size ('z' would optimize even more)
 opt-level = 's'

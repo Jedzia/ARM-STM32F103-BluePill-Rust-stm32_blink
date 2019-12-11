@@ -20,14 +20,29 @@ fn main() -> ! {
     // enable the GPIO clock for IO port C
     rcc.apb2enr.write(|w| w.iopcen().set_bit());
     gpioc.crh.write(|w| unsafe{
-        w.mode13().bits(0b11);
-        w.cnf13().bits(0b00)
+		if cfg!(feature = "OLIMEX_H103") { // OLIMEX-H103
+				w.mode12().bits(0b11);
+				w.cnf12().bits(0b00)
+		} else {
+				w.mode13().bits(0b11);
+				w.cnf13().bits(0b00)
+		}	
     });
 
     loop{
-        gpioc.bsrr.write(|w| w.bs13().set_bit());
-        cortex_m::asm::delay(2000000);
-        gpioc.brr.write(|w| w.br13().set_bit());
+		if cfg!(feature = "OLIMEX_H103") { // OLIMEX-H103
+			gpioc.bsrr.write(|w| w.bs12().set_bit());
+		} else {
+			gpioc.bsrr.write(|w| w.bs13().set_bit());
+		}	
+       
+	   cortex_m::asm::delay(2000000);
+
+	   if cfg!(feature = "OLIMEX_H103") { // OLIMEX-H103
+			gpioc.brr.write(|w| w.br12().set_bit());
+		} else {
+			gpioc.brr.write(|w| w.br13().set_bit());
+		}	
         cortex_m::asm::delay(2000000);
     }
 }
