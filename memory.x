@@ -9,8 +9,14 @@ MEMORY
 #  ARM.exidx : org = 0x06008000 - 0x10020, len = 0x10000 - 0x20
 }
 
-/*SECTIONS
+SECTIONS
 {
 #  .ARM.extab : {*(.ARM.extab* .gnu.linkonce.armextab.*)} > extabram
-  .ARM.exidx : {*(.ARM.extab* .gnu.linkonce.armextab.*)} > RAM
-}*/
+#  .ARM.exidx : {*(.ARM.extab* .gnu.linkonce.armextab.*)} > RAM
+
+	/DISCARD/ :
+	{
+		*(.ARM.exidx .ARM.exidx.*);
+	}
+}
+

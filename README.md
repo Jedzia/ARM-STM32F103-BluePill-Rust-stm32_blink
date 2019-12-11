@@ -7,6 +7,45 @@ This is the cargo project with the source code for the blogpost: https://jonatha
 
 ### rust-lld: error: no memory region specified for section '.ARM.exidx' ###
 
+ToDo: There is something new. Check out new examples ... see https://docs.rust-embedded.org/embedonomicon/print.html with
+
+    $ cat link.x
+    
+    /* Memory layout of the LM3S6965 microcontroller */
+    /* 1K = 1 KiBi = 1024 bytes */
+    MEMORY
+    {
+      FLASH : ORIGIN = 0x00000000, LENGTH = 256K
+      RAM : ORIGIN = 0x20000000, LENGTH = 64K
+    }
+    
+    /* The entry point is the reset handler */
+    ENTRY(Reset);
+    
+    EXTERN(RESET_VECTOR);
+    
+    SECTIONS
+    {
+      .vector_table ORIGIN(FLASH) :
+      {
+        /* First entry: initial Stack Pointer value */
+        LONG(ORIGIN(RAM) + LENGTH(RAM));
+    
+        /* Second entry: reset vector */
+        KEEP(*(.vector_table.reset_vector));
+      } > FLASH
+    
+      .text :
+      {
+        *(.text .text.*);
+      } > FLASH
+    
+      /DISCARD/ :
+      {
+        *(.ARM.exidx .ARM.exidx.*);
+      }
+    }
+
 
 
 1. Specify the memory region in the linker script: (ToDo: check this. minus or plus 0x20? and the interleave ... better a separate memory section!
@@ -25,6 +64,7 @@ This is the cargo project with the source code for the blogpost: https://jonatha
         
 2. or specify (like 3. below) as RUSTFLAGS environment variable 
         set RUSTFLAGS=-C linker=arm-none-eabi-ld && cargo build --release
+   BUG: Does not produce valid binaries
 
 3. or, change linker to local arm (`"-C", "linker=arm-none-eabi-ld"`) in *.cargo/config* because of rust failing with
         Compiling stm32_blink v0.1.0 (E:\Projects\Elektronik\ARM\STM32F103\BluePill\Rust\jounathaen\stm32_blink)
