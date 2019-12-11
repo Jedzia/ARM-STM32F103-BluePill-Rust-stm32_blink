@@ -16,6 +16,8 @@ fn main() -> ! {
     let peripherals = stm32f103::Peripherals::take().unwrap();
     let gpioc = &peripherals.GPIOC;
     let rcc = &peripherals.RCC;
+	
+	let mut counter = 0;
 
     // enable the GPIO clock for IO port C
     rcc.apb2enr.write(|w| w.iopcen().set_bit());
@@ -30,19 +32,21 @@ fn main() -> ! {
     });
 
     loop{
+		const DELAYVAL: u32 = 200000000;
 		if cfg!(feature = "OLIMEX_H103") { // OLIMEX-H103
 			gpioc.bsrr.write(|w| w.bs12().set_bit());
 		} else {
 			gpioc.bsrr.write(|w| w.bs13().set_bit());
 		}	
        
-	   cortex_m::asm::delay(2000000);
+	   cortex_m::asm::delay(DELAYVAL);
 
 	   if cfg!(feature = "OLIMEX_H103") { // OLIMEX-H103
 			gpioc.brr.write(|w| w.br12().set_bit());
 		} else {
 			gpioc.brr.write(|w| w.br13().set_bit());
 		}	
-        cortex_m::asm::delay(2000000);
+        cortex_m::asm::delay(DELAYVAL + (counter * 20000000));
+		counter += 1;
     }
 }

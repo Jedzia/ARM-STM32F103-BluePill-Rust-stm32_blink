@@ -14,9 +14,9 @@ SECTIONS
 #  .ARM.extab : {*(.ARM.extab* .gnu.linkonce.armextab.*)} > extabram
 #  .ARM.exidx : {*(.ARM.extab* .gnu.linkonce.armextab.*)} > RAM
 
-	/DISCARD/ :
-	{
-		*(.ARM.exidx .ARM.exidx.*);
-	}
+#	/DISCARD/ :
+#	{
+#		*(.ARM.exidx .ARM.exidx.*);
+#	}
 }
 

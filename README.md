@@ -6,8 +6,9 @@ This is the cargo project with the source code for the blogpost: https://jonatha
 ## Jedzias Notes ##
 
 ### rust-lld: error: no memory region specified for section '.ARM.exidx' ###
+**SCRAP THIS**, after updating cargo dependencies all seems fine!
 
-ToDo: There is something new. Check out new examples ... see https://docs.rust-embedded.org/embedonomicon/print.html with
+There is something new. Check out new examples ... see https://docs.rust-embedded.org/embedonomicon/print.html with
 
     $ cat link.x
     
