@@ -2,6 +2,7 @@ STM32_blink
 ===========
 
 This is the cargo project with the source code for the blogpost: https://jonathanklimt.de/electrics/programming/rust-STM32F103-blink/
+Source repository is https://gitlab.com/jounathaen/stm32_blink.
 
 ## Jedzias Notes ##
 
